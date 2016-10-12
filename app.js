@@ -3,6 +3,7 @@ var express = require('express')
 var ejs     = require('ejs')
 var mongo   = require('mongodb')
 var app     = express()
+var valid   = [ ]
 app.engine('html', ejs.renderFile)
 app.listen(2000)
 
@@ -100,8 +101,9 @@ function doLogin(req, res) {
 							res.redirect("/login?Invalid Password")
 						} else {
 							console.log("CORRECT")
-							var r = generateSession()
-							res.set('Set-Cookie', 'session=' + r)
+							var card = generateSession()
+							valid[card] = data[0] // this card is valid
+							res.set('Set-Cookie', 'session=' + card)
 							res.redirect("/profile")
 						}
 					}
@@ -128,7 +130,11 @@ function extractSession(cookie) {
 }
 function showProfile(req, res) {
 	var c = req.get('cookie')
-	var r = extractSession(c)
-	console.log(r)
+	var card = extractSession(c)
+	if (valid[card]) {
+		res.render('profile.html')
+	} else {
+		res.redirect('/login')
+	}
 
 }
