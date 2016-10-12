@@ -140,5 +140,5 @@ function showProfile(req, res) {
 function showLogout(req, res) {
 	var card = extractSession(req.get('cookie'))
 	delete valid[card]
-	res.redirect('/login')
+	res.render('logout.html')
 }
