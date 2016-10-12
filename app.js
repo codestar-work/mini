@@ -10,6 +10,7 @@ app.get('/', showIndex)
 app.get('/register', showRegister)
 // app.get('/register-user', saveNewUser)
 app.post('/register-user', registerUser)
+app.get('/login', showLogin)
 
 app.use(express.static('public'))
 
@@ -41,8 +42,6 @@ function registerUser(req, res) {
 									.digest('hex')
 			}
 		}
-
-		console.log(info)
 		
 		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
 			(error, db) => {
@@ -75,3 +74,6 @@ function saveNewUser(req, res) {
     )
 }
 
+function showLogin(req, res) {
+	res.render('login.html')
+}
