@@ -13,21 +13,29 @@ app.post('/register-user', registerUser)
 app.use(express.static('public'))
 
 function showIndex(req, res) {
-    res.render('index.html')
+	res.render('index.html')
 }
 function showRegister(req, res) {
-    res.render('register.html')
+	res.render('register.html')
 }
 function registerUser(req, res) {
-    var s = ''
-    req.on('data', chunk => {
-        s += chunk;
-    })
-    req.on('end', () => {
-        s = decodeURIComponent(s)
-        s = s.replace(/\+/g, ' ')
-        console.log(s)
-    })
+	var s = ''
+	req.on('data', (piece) => {
+		s += piece // s = s + piece
+	})
+	req.on('end', () => {
+		console.log(s)
+		var t = s.split('&')
+		var info = {}
+		for (var f of t) {
+			var d = f.split('=')
+			info[d[0]] = decodeURIComponent(d[1])
+			if (d[0] == 'name') {
+				info[d[0]] = info[d[0]].replace(/\+/g, ' ')
+			}
+		}
+		console.log(info)
+	})
 }
 
 function saveNewUser(req, res) {
