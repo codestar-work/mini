@@ -14,6 +14,7 @@ app.post('/register-user', registerUser)
 app.get ('/login', showLogin)
 app.post('/login', doLogin)
 app.get('/profile', showProfile)
+app.get('/logout', showLogout)
 
 app.use(express.static('public'))
 
@@ -114,9 +115,9 @@ function doLogin(req, res) {
 }
 
 function generateSession() {
-	var a = Math.random() * 1000
-	var b = Math.random() * 1000
-	var c = Math.random() * 1000
+	var a = Math.random() * 1000000
+	var b = Math.random() * 1000000
+	var c = Math.random() * 1000000
 	a = parseInt(a)
 	b = parseInt(b)
 	c = parseInt(c)
@@ -129,12 +130,15 @@ function extractSession(cookie) {
 	return cookie.substring(start, stop)
 }
 function showProfile(req, res) {
-	var c = req.get('cookie')
-	var card = extractSession(c)
+	var card = extractSession(req.get('cookie'))
 	if (valid[card]) {
 		res.render('profile.html')
 	} else {
 		res.redirect('/login')
 	}
-
+}
+function showLogout(req, res) {
+	var card = extractSession(req.get('cookie'))
+	delete valid[card]
+	res.redirect('/login')
 }
