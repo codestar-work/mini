@@ -7,7 +7,8 @@ app.listen(2000)
 
 app.get('/', showIndex)
 app.get('/register', showRegister)
-app.get('/register-user', saveNewUser)
+// app.get('/register-user', saveNewUser)
+app.post('/register-user', registerUser)
 
 app.use(express.static('public'))
 
@@ -17,6 +18,18 @@ function showIndex(req, res) {
 function showRegister(req, res) {
     res.render('register.html')
 }
+function registerUser(req, res) {
+    var s = ''
+    req.on('data', chunk => {
+        s += chunk;
+    })
+    req.on('end', () => {
+        s = decodeURIComponent(s)
+        s = s.replace(/\+/g, ' ')
+        console.log(s)
+    })
+}
+
 function saveNewUser(req, res) {
     var info = {}
     info.name = req.query.name
