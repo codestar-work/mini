@@ -1,3 +1,4 @@
+var crypto  = require('crypto')
 var express = require('express')
 var ejs     = require('ejs')
 var mongo   = require('mongodb')
@@ -31,9 +32,17 @@ function registerUser(req, res) {
 			var d = f.split('=')
 			info[d[0]] = decodeURIComponent(d[1])
 			if (d[0] == 'name') {
-				info[d[0]] = info[d[0]].replace(/\+/g, ' ')
+				info.name = info.name.replace(/\+/g, ' ')
+			}
+			if (d[0] == 'password') {
+				info.password = crypto.createHmac('sha512',
+									info.password)
+									.update('mini-password')
+									.digest('hex')
 			}
 		}
+
+		console.log(info)
 		
 		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
 			(error, db) => {
