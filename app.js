@@ -85,7 +85,6 @@ function doLogin(req, res) {
 		var info = { }
 		for (var f of t) {
 			var d = f.split('=')
-			// d[0], d[1]
 			info[d[0]] = decodeURIComponent(d[1])
 		}
 		info.password = crypto.createHmac('sha512', info.password)
@@ -100,6 +99,8 @@ function doLogin(req, res) {
 							res.redirect("/login?Invalid Password")
 						} else {
 							console.log("CORRECT")
+							var r = generateSession()
+							res.set('Set-Cookie', 'session=' + r)
 							res.redirect("/profile")
 						}
 					}
@@ -107,4 +108,14 @@ function doLogin(req, res) {
 			}
 		)
 	})
+}
+
+function generateSession() {
+	var a = Math.random() * 1000
+	var b = Math.random() * 1000
+	var c = Math.random() * 1000
+	a = parseInt(a)
+	b = parseInt(b)
+	c = parseInt(c)
+	return a + '-' + b + '-' + c
 }
