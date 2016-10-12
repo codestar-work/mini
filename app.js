@@ -77,7 +77,12 @@ function saveNewUser(req, res) {
 }
 
 function showLogin(req, res) {
-	res.render('login.html')
+	var card = extractSession(req.get('cookie'))
+	if (valid[card]) {
+		res.redirect('/profile')
+	} else {
+		res.render('login.html')
+	}
 }
 
 function doLogin(req, res) {
