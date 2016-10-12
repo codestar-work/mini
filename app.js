@@ -12,6 +12,7 @@ app.get('/register', showRegister)
 app.post('/register-user', registerUser)
 app.get ('/login', showLogin)
 app.post('/login', doLogin)
+app.get('/profile', showProfile)
 
 app.use(express.static('public'))
 
@@ -118,4 +119,16 @@ function generateSession() {
 	b = parseInt(b)
 	c = parseInt(c)
 	return a + '-' + b + '-' + c
+}
+function extractSession(cookie) {
+	cookie += ';'
+	var start = cookie.indexOf('session=') + 8
+	var stop  = cookie.indexOf(';', start)
+	return cookie.substring(start, stop)
+}
+function showProfile(req, res) {
+	var c = req.get('cookie')
+	var r = extractSession(c)
+	console.log(r)
+
 }
