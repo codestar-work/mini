@@ -23,11 +23,10 @@ function showRegister(req, res) {
 }
 function registerUser(req, res) {
 	var s = ''
-	req.on('data', (piece) => {
-		s += piece // s = s + piece
+	req.on('data', piece => {
+		s += piece
 	})
 	req.on('end', () => {
-		console.log(s)
 		var t = s.split('&')
 		var info = {}
 		for (var f of t) {
@@ -37,8 +36,7 @@ function registerUser(req, res) {
 				info.name = info.name.replace(/\+/g, ' ')
 			}
 			if (d[0] == 'password') {
-				info.password = crypto.createHmac('sha512',
-									info.password)
+				info.password = crypto.createHmac('sha512', info.password)
 									.update('mini-password')
 									.digest('hex')
 			}
@@ -80,5 +78,33 @@ function showLogin(req, res) {
 }
 
 function doLogin(req, res) {
-
+	var s = ''
+	req.on('data', piece => { s += piece })
+	req.on('end', () => {
+		var t = s.split('&')
+		var info = { }
+		for (var f of t) {
+			var d = f.split('=')
+			// d[0], d[1]
+			info[d[0]] = decodeURIComponent(d[1])
+		}
+		info.password = crypto.createHmac('sha512', info.password)
+						.update('mini-password')
+						.digest('hex')
+		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
+			(error, db) => {
+				db.collection('user').find(info).toArray(
+					(error, data) => {
+						if (data.length == 0) {
+							console.log("INCORRECT")
+							res.redirect("/login?Invalid Password")
+						} else {
+							console.log("CORRECT")
+							res.redirect("/profile")
+						}
+					}
+				)
+			}
+		)
+	})
 }
