@@ -10,7 +10,8 @@ app.get('/', showIndex)
 app.get('/register', showRegister)
 // app.get('/register-user', saveNewUser)
 app.post('/register-user', registerUser)
-app.get('/login', showLogin)
+app.get ('/login', showLogin)
+app.post('/login', doLogin)
 
 app.use(express.static('public'))
 
@@ -76,4 +77,8 @@ function saveNewUser(req, res) {
 
 function showLogin(req, res) {
 	res.render('login.html')
+}
+
+function doLogin(req, res) {
+
 }
