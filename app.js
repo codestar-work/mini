@@ -34,7 +34,22 @@ function registerUser(req, res) {
 				info[d[0]] = info[d[0]].replace(/\+/g, ' ')
 			}
 		}
-		console.log(info)
+		
+		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
+			(error, db) => {
+				var c = { email: info.email }
+				db.collection('user').find(c).toArray(
+					(error, data) => {
+						if (data.length == 0) {
+							db.collection('user').insert(info)
+							res.redirect('/login')
+						} else {
+							res.redirect('/register?Duplicated')
+						}
+					}
+				)
+			}
+		)
 	})
 }
 
