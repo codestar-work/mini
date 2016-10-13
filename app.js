@@ -1,3 +1,4 @@
+var fs      = require('fs')
 var crypto  = require('crypto')
 var express = require('express')
 var ejs     = require('ejs')
@@ -107,10 +108,8 @@ function doLogin(req, res) {
 				db.collection('user').find(info).toArray(
 					(error, data) => {
 						if (data.length == 0) {
-							console.log("INCORRECT")
 							res.redirect("/login?Invalid Password")
 						} else {
-							console.log("CORRECT")
 							var card = generateSession()
 							valid[card] = data[0] // this card is valid
 							res.set('Set-Cookie', 'session=' + card)
@@ -156,6 +155,15 @@ function showLogout(req, res) {
 }
 
 function makeProfile(req, res) {
-	console.log(req.file)
-	res.redirect('/profile')
+	fs.rename(req.file.path, req.file.path + '.png')
+	mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
+		(error, db) => {
+			var card = extractSession(req.get('cookie'))
+			var old = { _id: valid[card]._id }
+			var info = valid[card]
+			info.photo = req.file.filename
+			db.collection('user').update(old, info)
+			res.redirect('/profile')
+		}
+	)
 }
