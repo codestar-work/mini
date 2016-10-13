@@ -1,21 +1,36 @@
 <% include header.html %>
 <div class='container'>
-    <div class='btn-group'
-        style='margin-top:10px;'>
-        <a class='btn btn-outline-primary' 
-            href='/'>Home</a>
-        <a class='btn btn-outline-primary' 
-            href='/profile'>Profile</a>
-        <a class='btn btn-outline-primary' 
-            href='/logout'>Logout</a>
-    </div>
-    <br>
-    Welcome to your profile page
+	<div class='btn-group'
+		style='margin-top:10px;'>
+		<a class='btn btn-outline-primary' 
+			href='/'>Home</a>
+		<a class='btn btn-outline-primary' 
+			href='/profile'>Profile</a>
+		<a class='btn btn-outline-primary' 
+			href='/logout'>Logout</a>
+	</div>
+	<br>
+	Welcome to your profile page
+	<br>
+	<img src='<%= user.photo + ".png" %>' 
+		onclick='photoClick()'
+		style="width:160px;">
 
-    <form action='/save-profile' method='post'
-        enctype='multipart/form-data'>
-        <input type='file' name='photo'>
-        <button type='submit'>Save</button>
-    </form>
+	<form action='/save-profile' method='post'
+		enctype='multipart/form-data'
+		id='profile-form'
+		style='display:none'>
+		<input type='file' name='photo'
+			id='profile-photo'
+			onchange='photoSave()'>
+	</form>
 </div>
+<script>
+	function photoClick() {
+		document.getElementById('profile-photo').click()
+	}
+	function photoSave() {
+		document.getElementById('profile-form').submit()
+	}
+</script>
 <% include footer.html %>

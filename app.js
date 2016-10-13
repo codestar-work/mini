@@ -22,6 +22,7 @@ app.get('/logout', showLogout)
 app.post('/save-profile', upload.single('photo'), makeProfile)
 
 app.use(express.static('public'))
+app.use(express.static('uploaded'))
 
 function showIndex(req, res) {
 	res.render('index.html')
@@ -142,7 +143,8 @@ function extractSession(cookie) {
 function showProfile(req, res) {
 	var card = extractSession(req.get('cookie'))
 	if (valid[card]) {
-		res.render('profile.html')
+		var data = {user: valid[card]}
+		res.render('profile.html', data)
 	} else {
 		res.redirect('/login')
 	}
@@ -162,6 +164,7 @@ function makeProfile(req, res) {
 			var old = { _id: valid[card]._id }
 			var info = valid[card]
 			info.photo = req.file.filename
+			valid[card] = info
 			db.collection('user').update(old, info)
 			res.redirect('/profile')
 		}
