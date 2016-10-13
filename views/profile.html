@@ -12,10 +12,12 @@
 	<br>
 	Welcome to your profile page
 	<br>
+	<% if (user.photo) { %>
 	<img src='<%= user.photo + ".png" %>' 
 		onclick='photoClick()'
 		style="width:160px;">
-
+	<% } %>
+	
 	<form action='/save-profile' method='post'
 		enctype='multipart/form-data'
 		id='profile-form'
