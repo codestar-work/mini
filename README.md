@@ -4,7 +4,7 @@
 ```
 git clone https://github.com/codestar-work/mini
 cd mini
-npm install express ejs mongodb
+npm install express ejs mongodb multer
 node app
 ```
 

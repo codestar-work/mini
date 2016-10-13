@@ -2,6 +2,9 @@ var crypto  = require('crypto')
 var express = require('express')
 var ejs     = require('ejs')
 var mongo   = require('mongodb')
+var multer  = require('multer')
+
+var upload  = multer( {dest: 'uploaded'} )
 var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
@@ -15,6 +18,7 @@ app.get ('/login', showLogin)
 app.post('/login', doLogin)
 app.get('/profile', showProfile)
 app.get('/logout', showLogout)
+app.post('/save-profile', upload.single('photo'), makeProfile)
 
 app.use(express.static('public'))
 
@@ -128,12 +132,14 @@ function generateSession() {
 	c = parseInt(c)
 	return a + '-' + b + '-' + c
 }
+
 function extractSession(cookie) {
 	cookie += ';'
 	var start = cookie.indexOf('session=') + 8
 	var stop  = cookie.indexOf(';', start)
 	return cookie.substring(start, stop)
 }
+
 function showProfile(req, res) {
 	var card = extractSession(req.get('cookie'))
 	if (valid[card]) {
@@ -142,8 +148,14 @@ function showProfile(req, res) {
 		res.redirect('/login')
 	}
 }
+
 function showLogout(req, res) {
 	var card = extractSession(req.get('cookie'))
 	delete valid[card]
 	res.render('logout.html')
+}
+
+function makeProfile(req, res) {
+	console.log(req.file)
+	res.redirect('/profile')
 }

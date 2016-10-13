@@ -10,7 +10,12 @@
             href='/logout'>Logout</a>
     </div>
     <br>
-
     Welcome to your profile page
+
+    <form action='/save-profile' method='post'
+        enctype='multipart/form-data'>
+        <input type='file' name='photo'>
+        <button type='submit'>Save</button>
+    </form>
 </div>
 <% include footer.html %>
