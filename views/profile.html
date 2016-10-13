@@ -16,11 +16,11 @@
 	<img src='<%= user.photo + ".png" %>' 
 		onclick='photoClick()'
 		style="width:160px;">
-	<% } else {
+	<% } else { %>
 		<button class='btn btn-primary'
 		onclick='photoClick()'
 		>Upload Profile</button>
-	} %>
+	<% } %>
 
 	<form action='/save-profile' method='post'
 		enctype='multipart/form-data'
