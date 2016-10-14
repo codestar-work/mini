@@ -8,6 +8,7 @@ var multer  = require('multer')
 var upload  = multer( {dest: 'uploaded'} )
 var app     = express()
 var valid   = [ ]
+var database = 'mongodb://104.199.219.204/minishop'
 app.engine('html', ejs.renderFile)
 app.listen(2000)
 
@@ -51,8 +52,7 @@ function registerUser(req, res) {
 			}
 		}
 		
-		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
-			(error, db) => {
+		mongo.MongoClient.connect(database, (error, db) => {
 				var c = { email: info.email }
 				db.collection('user').find(c).toArray(
 					(error, data) => {
@@ -70,16 +70,15 @@ function registerUser(req, res) {
 }
 
 function saveNewUser(req, res) {
-    var info = {}
-    info.name = req.query.name
-    info.email = req.query.email
-    info.password = req.query.password
-    mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
-        (error, db) => {
-            db.collection('user').insert(info)
-            res.redirect('/')
-        }
-    )
+	var info = {}
+	info.name = req.query.name
+	info.email = req.query.email
+	info.password = req.query.password
+	mongo.MongoClient.connect(database, (error, db) => {
+			db.collection('user').insert(info)
+			res.redirect('/')
+		}
+	)
 }
 
 function showLogin(req, res) {
@@ -104,8 +103,7 @@ function doLogin(req, res) {
 		info.password = crypto.createHmac('sha512', info.password)
 						.update('mini-password')
 						.digest('hex')
-		mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
-			(error, db) => {
+		mongo.MongoClient.connect(database, (error, db) => {
 				db.collection('user').find(info).toArray(
 					(error, data) => {
 						if (data.length == 0) {
@@ -158,8 +156,7 @@ function showLogout(req, res) {
 
 function makeProfile(req, res) {
 	fs.rename(req.file.path, req.file.path + '.png')
-	mongo.MongoClient.connect('mongodb://127.0.0.1/minishop',
-		(error, db) => {
+	mongo.MongoClient.connect(database, (error, db) => {
 			var card = extractSession(req.get('cookie'))
 			var old = { _id: valid[card]._id }
 			var info = valid[card]
