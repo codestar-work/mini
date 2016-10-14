@@ -21,6 +21,7 @@ app.get ('/profile', showProfile)
 app.get ('/logout', showLogout)
 app.post('/save-profile', upload.single('photo'), makeProfile)
 app.get ('/new', showNewTopic)
+app.post('/new', upload.single('photo'), saveNewTopic)
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
 
@@ -163,4 +164,20 @@ function showNewTopic(req, res) {
 	} else {
 		res.redirect('/login')
 	}
+}
+
+function saveNewTopic(req, res) {
+	// req.file
+	var cookie = req.get('cookie')
+	var card   = extractSession(cookie)
+	var user   = valid[card]
+	var info    = { }
+	info.user   = user._id
+	info.topic  = req.body.topic
+	info.detail = req.body.detail
+	info.time   = new Date()
+	mongo.MongoClient.connect(database, (error, db) => {
+		db.collection('post').insert(info)
+		res.redirect('/profile')
+	})
 }
