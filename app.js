@@ -8,7 +8,7 @@ var multer  = require('multer')
 var upload  = multer( {dest: 'uploaded'} )
 var app     = express()
 var valid   = [ ]
-var database = 'mongodb://104.199.219.204/minishop'
+var database = 'mongodb://127.0.0.1/minishop'
 app.engine('html', ejs.renderFile)
 app.listen(2000)
 
