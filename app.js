@@ -176,6 +176,9 @@ function saveNewTopic(req, res) {
 	info.user   = user._id
 	info.topic  = req.body.topic
 	info.detail = req.body.detail
+	if (req.body.category != 'All') {
+		info.category = req.body.category
+	}
 	info.time   = new Date()
 	if (req.file) {
 		fs.rename(req.file.path, req.file.path + '.png')
