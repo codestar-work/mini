@@ -22,6 +22,8 @@ app.get ('/logout', showLogout)
 app.post('/save-profile', upload.single('photo'), makeProfile)
 app.get ('/new', showNewTopic)
 app.post('/new', upload.single('photo'), saveNewTopic)
+app.get ('/view', showUserTopic)
+
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
 
@@ -183,4 +185,19 @@ function saveNewTopic(req, res) {
 		db.collection('post').insert(info)
 		res.redirect('/profile')
 	})
+}
+
+function showUserTopic(req, res) {
+	var cookie = req.get('cookie')
+	var card   = extractSession(cookie)
+	if (valid[card]) {
+		var id = valid[card]._id
+		mongo.MongoClient.connect(database, (error, db) => {
+			db.collection('post').find({user: id}).toArray((error, data) => {
+				res.render('view.html', {post: data})
+			})
+		})
+	} else {
+		res.redirect('/login')
+	}
 }
