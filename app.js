@@ -167,7 +167,6 @@ function showNewTopic(req, res) {
 }
 
 function saveNewTopic(req, res) {
-	// req.file
 	var cookie = req.get('cookie')
 	var card   = extractSession(cookie)
 	var user   = valid[card]
@@ -176,6 +175,10 @@ function saveNewTopic(req, res) {
 	info.topic  = req.body.topic
 	info.detail = req.body.detail
 	info.time   = new Date()
+	if (req.file) {
+		fs.rename(req.file.path, req.file.path + '.png')
+		info.photo = req.file.filename
+	}
 	mongo.MongoClient.connect(database, (error, db) => {
 		db.collection('post').insert(info)
 		res.redirect('/profile')
