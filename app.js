@@ -23,6 +23,7 @@ app.post('/save-profile', upload.single('photo'), makeProfile)
 app.get ('/new', showNewTopic)
 app.post('/new', upload.single('photo'), saveNewTopic)
 app.get ('/view', showUserTopic)
+app.get ('/show', showAll)
 
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
@@ -203,4 +204,12 @@ function showUserTopic(req, res) {
 	} else {
 		res.redirect('/login')
 	}
+}
+
+function showAll(req, res) {
+	mongo.MongoClient.connect(database, (error, db) => {
+		db.collection('post').find().toArray((error, data) => {
+			res.render('show.html', {post: data})
+		})
+	})
 }
