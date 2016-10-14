@@ -1,0 +1,28 @@
+<% include header.html %>
+
+<div class='container'>
+
+	<h1>Welcome</h1>
+	<style>
+		img { width: 100%; }
+	</style>
+	<div class='row'>
+		<% for (var i = 0; i < post.length; i++) { %>
+		<div class='col-xs-12 col-sm-6 col-md-4'>
+			<div class='card'>
+			<% if (post[i].photo == null) { post[i].photo = 'blank' } %>
+			<img class='card-img-top' src='/<%= post[i].photo + ".png" %>' >
+			<div class='card-block'>
+				<h4 class='card-title'><%= post[i].topic %></h4>
+				<p class='card-text'><%= post[i].detail %></p>
+			</div>
+			</div>
+		</div>
+		<% } %>
+	</div>
+
+
+</div>
+
+
+<% include footer.html %>
