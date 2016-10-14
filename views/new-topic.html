@@ -1,0 +1,23 @@
+<% include header.html %>
+<div class='container'>
+<% include menu.html %>
+
+<h1>New Topic</h1>
+<style>
+    form * {
+        margin-bottom: 8px;
+    }
+</style>
+<form method='post' enctype='multipart/form-data'>
+    <input name='topic' class='form-control'
+        autofocus placeholder='Topic'>
+    <textarea name='detail' class='form-control'
+        placeholder='Detail' rows='5'></textarea>
+    <input type='file' name='photo' class='btn btn-outline-primary'>
+    <br>
+    <button type='submit' class='btn btn-primary'>Post</button>
+    <a class='btn btn-outline-primary' href='/profile'>Cancel</a>
+</form>
+
+</div>
+<% include footer.html %>
