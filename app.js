@@ -24,6 +24,7 @@ app.get ('/new', showNewTopic)
 app.post('/new', upload.single('photo'), saveNewTopic)
 app.get ('/view', showUserTopic)
 app.get ('/show', showAll)
+app.get ('/list', listAll)
 
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
@@ -210,6 +211,14 @@ function showAll(req, res) {
 	mongo.MongoClient.connect(database, (error, db) => {
 		db.collection('post').find().toArray((error, data) => {
 			res.render('show.html', {post: data})
+		})
+	})
+}
+
+function listAll(req, res) {
+	mongo.MongoClient.connect(database, (error, db) => {
+		db.collection('post').find().toArray((error, data) => {
+			res.send(data)
 		})
 	})
 }
