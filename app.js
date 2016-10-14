@@ -12,16 +12,15 @@ var database = 'mongodb://127.0.0.1/minishop'
 app.engine('html', ejs.renderFile)
 app.listen(2000)
 
-app.get('/', showIndex)
-app.get('/register', showRegister)
-// app.get('/register-user', saveNewUser)
+app.get ('/', showIndex)
+app.get ('/register', showRegister)
 app.post('/register-user', registerUser)
 app.get ('/login', showLogin)
 app.post('/login', doLogin)
-app.get('/profile', showProfile)
-app.get('/logout', showLogout)
+app.get ('/profile', showProfile)
+app.get ('/logout', showLogout)
 app.post('/save-profile', upload.single('photo'), makeProfile)
-
+app.get ('/new', showNewTopic)
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
 
@@ -67,18 +66,6 @@ function registerUser(req, res) {
 			}
 		)
 	})
-}
-
-function saveNewUser(req, res) {
-	var info = {}
-	info.name = req.query.name
-	info.email = req.query.email
-	info.password = req.query.password
-	mongo.MongoClient.connect(database, (error, db) => {
-			db.collection('user').insert(info)
-			res.redirect('/')
-		}
-	)
 }
 
 function showLogin(req, res) {
@@ -166,4 +153,14 @@ function makeProfile(req, res) {
 			res.redirect('/profile')
 		}
 	)
+}
+
+function showNewTopic(req, res) {
+	var cookie = req.get('cookie')
+	var card = extractSession(cookie)
+	if (valid[card]) {
+		res.render('new-topic.html')
+	} else {
+		res.redirect('/login')
+	}
 }
