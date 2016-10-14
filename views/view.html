@@ -1,0 +1,17 @@
+<% include header.html %>
+
+<div class='container'>
+    <% include menu.html %>
+    <% for (var i = 0; i < post.length; i++) { %>
+        <br>
+        <b><%= post[i].topic %></b>
+        <br>
+        <%= post[i].detail %>
+        <br>
+        <% if (post[i].photo) { %>
+            <img src='/<%= post[i].photo + ".png" %>' 
+                style='max-width:320px'>
+        <% } %>
+    <% } %>
+</div>
+<% include footer.html %>
