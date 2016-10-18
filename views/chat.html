@@ -6,6 +6,10 @@
 var socket = io.connect('/')
 socket.send(document.cookie)
 
+socket.on('message', m => {
+	alert(m)
+})
+
 </script>
 
 <% include footer.html %>

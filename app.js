@@ -19,7 +19,7 @@ io.on('connection', socket => {
 		if (data[0] == 'session') {
 			var card = data[1];
 			var user = valid[card]
-			console.log(user)
+			io.send(user.name + ' just joined.')
 		}
 	})
 })
