@@ -26,7 +26,6 @@ io.on('connection', socket => {
 		}
 	})
 	socket.on('disconnect', () => {
-		// console.log(socket)
 		if (socket && socket.user) {
 			var m = { message : "<b>" + socket.user.name + "</b> just left."}
 			io.send(m)
