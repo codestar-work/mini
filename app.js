@@ -13,6 +13,10 @@ var database = 'mongodb://127.0.0.1/minishop'
 app.engine('html', ejs.renderFile)
 io.listen( app.listen(2000) )
 
+io.on('connection', socket => {
+	console.log(socket)
+})
+
 app.get ('/', showIndex)
 app.get ('/register', showRegister)
 app.post('/register-user', registerUser)
