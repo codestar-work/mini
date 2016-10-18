@@ -17,9 +17,11 @@ io.on('connection', socket => {
 	socket.on('message', m => {
 		if (m.card) {
 			var user = valid[m.card]
+			socket.user = user;
 			io.send({message: user.name + ' just joined.'})
 		}
 		if (m.message) {
+			m.message = "<b>" + socket.user.name + ": </b>" + m.message
 			io.send(m)
 		}
 	})

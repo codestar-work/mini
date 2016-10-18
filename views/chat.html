@@ -13,10 +13,12 @@
 <div class='container'>
 	<div id='chat-history'>
 	</div>
-	<input id='chat-text' class='form-control'
-		autofocus placeholder='Message'>
-	<button class='btn btn-primary'
-		id='chat-send'>Send</button>
+	<form action='javascript:sendMessage()'>
+		<input id='chat-text' class='form-control'
+			autofocus placeholder='Message'>
+		<button class='btn btn-primary'
+			id='chat-send'>Send</button>
+	</form>
 </div>
 
 <script src='/socket.io/socket.io.js'></script>
@@ -34,7 +36,6 @@ socket.on('message', m => {
 	$('#chat-history').append(m.message + "<br>")
 })
 
-$('#chat-send').click(sendMessage)
 function sendMessage() {
 	var s = $('#chat-text').val()
 	socket.send({message: s})
