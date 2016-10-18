@@ -14,7 +14,14 @@ app.engine('html', ejs.renderFile)
 io.listen( app.listen(2000) )
 
 io.on('connection', socket => {
-	console.log(socket)
+	socket.on('message', m => {
+		var data = m.split('=')
+		if (data[0] == 'session') {
+			var card = data[1];
+			var user = valid[card]
+			console.log(user)
+		}
+	})
 })
 
 app.get ('/', showIndex)
