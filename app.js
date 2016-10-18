@@ -4,13 +4,15 @@ var express = require('express')
 var ejs     = require('ejs')
 var mongo   = require('mongodb')
 var multer  = require('multer')
+var io      = require('socket.io')()
+
 
 var upload  = multer( {dest: 'uploaded'} )
 var app     = express()
 var valid   = [ ]
 var database = 'mongodb://127.0.0.1/minishop'
 app.engine('html', ejs.renderFile)
-app.listen(2000)
+io.listen( app.listen(2000) )
 
 app.get ('/', showIndex)
 app.get ('/register', showRegister)
