@@ -6,7 +6,6 @@ var mongo   = require('mongodb')
 var multer  = require('multer')
 var io      = require('socket.io')()
 
-
 var upload  = multer( {dest: 'uploaded'} )
 var app     = express()
 var valid   = [ ]
@@ -27,6 +26,7 @@ app.post('/new', upload.single('photo'), saveNewTopic)
 app.get ('/view', showUserTopic)
 app.get ('/show', showAll)
 app.get ('/list', listAll)
+app.get ('/chat', showChat)
 
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
@@ -223,4 +223,14 @@ function listAll(req, res) {
 			res.send(data)
 		})
 	})
+}
+
+function showChat(req, res) {
+	var cookie = req.get('cookie')
+	var card   = extractSession(cookie)
+	if (valid[card]) {
+		res.render('chat.html')
+	} else {
+		res.redirect('/login')
+	}
 }
