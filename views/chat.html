@@ -7,6 +7,10 @@
 		margin-top: 20px;
 		margin-bottom: 10px;
 		padding: 10px;
+		overflow-y: scroll;
+	}
+	#chat-text {
+		margin-bottom: 10px;
 	}
 </style>
 
@@ -38,6 +42,7 @@ socket.on('message', m => {
 
 function sendMessage() {
 	var s = $('#chat-text').val()
+	$('#chat-text').val('')
 	socket.send({message: s})
 }
 
