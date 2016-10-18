@@ -4,10 +4,16 @@
 <script src='/socket.io/socket.io.js'></script>
 <script>
 var socket = io.connect('/')
-socket.send(document.cookie)
+var data = document.cookie.split(';')
+for (var i = 0; i < data.length; i++) {
+	var field = data[i].trim().split('=')
+	if (field[0] == 'session') {
+		socket.send({card: field[1]})
+	}
+}
 
 socket.on('message', m => {
-	alert(m)
+	alert(m.message)
 })
 
 </script>

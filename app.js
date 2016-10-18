@@ -15,11 +15,9 @@ io.listen( app.listen(2000) )
 
 io.on('connection', socket => {
 	socket.on('message', m => {
-		var data = m.split('=')
-		if (data[0] == 'session') {
-			var card = data[1];
-			var user = valid[card]
-			io.send(user.name + ' just joined.')
+		if (m.card) {
+			var user = valid[m.card]
+			io.send({message: user.name + ' just joined.'})
 		}
 	})
 })
