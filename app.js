@@ -18,10 +18,17 @@ io.on('connection', socket => {
 		if (m.card) {
 			var user = valid[m.card]
 			socket.user = user;
-			io.send({message: user.name + ' just joined.'})
+			io.send({message: "<b>" + user.name + '</b> just joined.'})
 		}
 		if (m.message) {
 			m.message = "<b>" + socket.user.name + ": </b>" + m.message
+			io.send(m)
+		}
+	})
+	socket.on('disconnect', () => {
+		// console.log(socket)
+		if (socket && socket.user) {
+			var m = { message : "<b>" + socket.user.name + "</b> just left."}
 			io.send(m)
 		}
 	})
