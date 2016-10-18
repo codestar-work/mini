@@ -1,5 +1,18 @@
 <% include header.html %>
 
+<style>
+	#chat-history {
+		background: #eee;
+		height: 200px;
+		margin-top: 20px;
+		padding: 10px;
+	}
+</style>
+
+<div class='container'>
+	<div id='chat-history'>
+	</div>
+</div>
 
 <script src='/socket.io/socket.io.js'></script>
 <script>
@@ -13,7 +26,7 @@ for (var i = 0; i < data.length; i++) {
 }
 
 socket.on('message', m => {
-	alert(m.message)
+	$('#chat-history').append(m.message + "<br>")
 })
 
 </script>
