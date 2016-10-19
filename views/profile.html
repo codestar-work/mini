@@ -19,9 +19,14 @@
 		enctype='multipart/form-data'
 		id='profile-form'
 		style='display:none'>
-		<input type='file' name='photo'
-			id='profile-photo'
-			onchange='photoSave()'>
+		<label class='custom-file'>
+			<input type='file' name='photo'
+				id='profile-photo'
+				onchange='photoSave()'
+				class='custom-file-input'>
+				<span class='custom-file-control'
+				></span>
+		</label>
 	</form>
 </div>
 <script>
