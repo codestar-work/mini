@@ -265,7 +265,7 @@ function showResult(req, res) {
 	var e = new RegExp(req.query.data, "i")
 	mongo.MongoClient.connect(database, (error, db) => {
 		db.collection('post').find({topic: e}).toArray((error, data) => {
-			res.send(data)
+			res.render('result.html', {list: data})
 		})
 	})
 }
