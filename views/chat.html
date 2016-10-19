@@ -50,10 +50,10 @@ function sendMessage() {
 
 function showLocation() {
 	var info = {enableHighAccuracy: true}
-	navigator.geolocation.getCurrentPosition(location, failed, info)
+	navigator.geolocation.getCurrentPosition(ready, failed, info)
 }
 
-function location(p) {
+function ready(p) {
 	var message = {}
 	message.message = p.coords.latitude + "," + p.coords.longitude
 	socket.send(message)
