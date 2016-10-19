@@ -72,6 +72,25 @@ function failed(e) {
 
 }
 
+var engine = new webkitSpeechRecognition()
+engine.lang = 'th'
+engine.onresult = function(e) {
+	var m = { message: e.results[0][0].transcript }
+	socket.send(m)
+}
+$('#chat-text').keydown(keydown)
+function keydown(e) {
+	if (e.which == 16) {
+		engine.start()
+	}
+}
+$('#chat-text').keyup(keyup)
+function keyup(e) {
+	if (e.which == 16) {
+		engine.stop()
+	}
+}
+
 </script>
 
 <% include footer.html %>
