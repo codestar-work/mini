@@ -22,6 +22,8 @@
 			autofocus placeholder='Message'>
 		<button class='btn btn-primary'
 			id='chat-send'>Send</button>
+		<a href='javascript:showLocation()'
+			class='btn btn-outline-primary'>Share Location</a>
 	</form>
 </div>
 
@@ -44,6 +46,21 @@ function sendMessage() {
 	var s = $('#chat-text').val()
 	$('#chat-text').val('')
 	socket.send({message: s})
+}
+
+function showLocation() {
+	var info = {enableHighAccuracy: true}
+	navigator.geolocation.getCurrentPosition(location, failed, info)
+}
+
+function location(p) {
+	var message = {}
+	message.message = p.coords.latitude + "," + p.coords.longitude
+	socket.send(message)
+}
+
+function failed(e) {
+
 }
 
 </script>
