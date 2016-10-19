@@ -56,9 +56,15 @@ function showLocation() {
 function ready(p) {
 	var message = {}
 	// message.message = p.coords.latitude + "," + p.coords.longitude
+	
 	message.message = "<a href='http://wikimapia.org/#lat=" +
 		p.coords.latitude + "&lon=" + p.coords.longitude + 
-		"&z=18' target='_blank'>Location</a>"  
+		"&z=18' target='_blank'>Location</a>"
+	/*
+	message.message = "<a href='https://google.com/maps/@" +
+		p.coords.latitude + "," + p.coords.longitude + 
+		",18z' target='_blank'>Location</a>"
+	*/
 	socket.send(message)
 }
 
