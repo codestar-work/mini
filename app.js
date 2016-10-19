@@ -47,6 +47,8 @@ app.get ('/view', showUserTopic)
 app.get ('/show', showAll)
 app.get ('/list', listAll)
 app.get ('/chat', showChat)
+app.get ('/search', showSearch)
+app.get ('/result', showResult)
 
 app.use(express.static('public'))
 app.use(express.static('uploaded'))
@@ -253,4 +255,12 @@ function showChat(req, res) {
 	} else {
 		res.redirect('/login')
 	}
+}
+
+function showSearch(req, res) {
+	res.render('search.html')
+}
+
+function showResult(req, res) {
+	res.render('result.html')
 }
