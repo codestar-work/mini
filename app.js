@@ -262,5 +262,10 @@ function showSearch(req, res) {
 }
 
 function showResult(req, res) {
-	res.render('result.html')
+	var e = new RegExp(req.query.data, "i")
+	mongo.MongoClient.connect(database, (error, db) => {
+		db.collection('post').find({topic: e}).toArray((error, data) => {
+			res.send(data)
+		})
+	})
 }
