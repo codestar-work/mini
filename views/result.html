@@ -1,7 +1,13 @@
 <% include header.html %>
 
-<%= list[0].topic %>
+<% for (var i = 0; i < list.length; i++) { %>
+
+<div>
+<%= list[i].topic %>
 <br>
-<%= list[0].detail %>
+<%= list[i].detail %>
+</div>
+
+<% } %>
 
 <% include footer.html %>
